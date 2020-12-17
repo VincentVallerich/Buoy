@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import fr.ensisa.gmv.buoys.network.Protocol;
 import fr.ensisa.gmv.buoys.server.model.Model;
+import fr.ensisa.gmv.buoys.server.model.Version;
 
 
 public class TCPSession extends Thread {
@@ -36,6 +38,7 @@ public class TCPSession extends Thread {
 			reader.receive ();
 			switch (reader.getType ()) {
 			case 0 : return false; // socket closed
+			case Protocol.GET_CONFIG_GET_VERSION: processGetVersion(reader, writer); break;
 			default: return false; // connection jammed
 			// to remove before adding anything
 			// entry added to remove annoying error reported by compiler
@@ -46,6 +49,12 @@ public class TCPSession extends Thread {
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	private void processGetVersion(TCPReader reader, TCPWriter writer) {
+		Version version = model.getLastVersion();
+		if (version == null) writer.createKO();
+		writer.createGetVersion(version);
 	}
 
 	public void run() {

@@ -20,4 +20,6 @@ public class Protocol {
 	public static final int UDP_STD2					= 0x02;
 	public static final int UDP_SERVICE					= 0x03;
 
+	public static final int GET_CONFIG_GET_VERSION      = 3000;
+	public static final int GET_CONFIG_NEW_VERSION      = 3001;
 }

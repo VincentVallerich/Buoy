@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ensisa.gmv.buoys.network.Protocol;
 import fr.ensisa.gmv.network.BasicAbstractReader;
 
 public class TCPReader extends BasicAbstractReader {
@@ -20,6 +21,7 @@ public class TCPReader extends BasicAbstractReader {
 		eraseFields ();
 		switch (type) {
 		case 0 : break;
+			case Protocol.GET_CONFIG_GET_VERSION: 
 		}
 	}
 

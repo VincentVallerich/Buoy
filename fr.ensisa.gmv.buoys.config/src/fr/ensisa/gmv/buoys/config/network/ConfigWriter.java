@@ -13,6 +13,7 @@ public class ConfigWriter extends BasicAbstractWriter {
     }
 
 	public void createReceiveCurrentVersion() {
+
 	}
 
 	public void createNewVersion(Version version) {
@@ -35,5 +36,4 @@ public class ConfigWriter extends BasicAbstractWriter {
 
 	public void createClearDataBuoy(long id) {
 	}
-
 }

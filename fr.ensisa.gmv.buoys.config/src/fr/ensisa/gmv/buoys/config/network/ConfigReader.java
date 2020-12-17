@@ -25,4 +25,8 @@ public class ConfigReader extends BasicAbstractReader {
         }
     }
 
+    public int getType() {
+        return readInt();
+    }
+
 }
