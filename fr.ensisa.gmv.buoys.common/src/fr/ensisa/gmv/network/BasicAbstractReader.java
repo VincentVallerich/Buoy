@@ -1,5 +1,7 @@
 package fr.ensisa.gmv.network;
 
+import fr.ensisa.gmv.buoys.config.model.Sensors;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;

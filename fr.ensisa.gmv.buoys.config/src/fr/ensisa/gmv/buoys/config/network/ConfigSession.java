@@ -53,6 +53,8 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
+            if (r.getType() == Protocol.GET_CONFIG_GET_VERSION)
+                return r.getVersion();
     		return null;
         } catch (IOException e) {
     		return null;
@@ -121,7 +123,7 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return new Long(-1);
             }
-    		return null;
+    		return r.getBuoy().getId().getValue();
         } catch (IOException e) {
     		return null;
         }
@@ -137,6 +139,9 @@ public class ConfigSession implements ISession {
             r.receive();
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
+            }
+            if (r.getType() == Protocol.GET_CONFIG_UPDATE_BUOY){
+                return true;
             }
     		return null;
         } catch (IOException e) {

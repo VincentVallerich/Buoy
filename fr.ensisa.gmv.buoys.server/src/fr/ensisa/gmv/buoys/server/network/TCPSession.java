@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.ensisa.gmv.buoys.network.Protocol;
+import fr.ensisa.gmv.buoys.server.model.Buoy;
 import fr.ensisa.gmv.buoys.server.model.Model;
 import fr.ensisa.gmv.buoys.server.model.Version;
 
@@ -39,12 +40,13 @@ public class TCPSession extends Thread {
 			switch (reader.getType ()) {
 			case 0 : return false; // socket closed
 			case Protocol.GET_CONFIG_GET_VERSION: processGetVersion(reader, writer); break;
+			case Protocol.GET_CONFIG_CREATE_BUOY: processCreateBuoy(reader, writer); break;
 			default: return false; // connection jammed
 			// to remove before adding anything
 			// entry added to remove annoying error reported by compiler
 			case 1:
 			}
-			writer.send ();
+			writer.send();
 			return true;
 		} catch (IOException e) {
 			return false;
@@ -57,6 +59,12 @@ public class TCPSession extends Thread {
 		writer.createGetVersion(version);
 	}
 
+	private void processCreateBuoy(TCPReader reader, TCPWriter writer) {
+		Buoy buoy = reader.getBuoy();
+		if (buoy == null) throw new Error("Buoy cannot be null");
+		writer.createCreateBuoy(buoy);
+	}
+
 	public void run() {
 		while (true) {
 			if (! operate())
@@ -67,5 +75,4 @@ public class TCPSession extends Thread {
 		} catch (IOException e) {
 		}
 	}
-
 }
