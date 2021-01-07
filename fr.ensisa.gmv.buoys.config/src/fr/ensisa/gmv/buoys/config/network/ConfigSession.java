@@ -160,9 +160,9 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return null;
+    		return true;
         } catch (IOException e) {
-    		return null;
+    		return false;
         }
 	}
 
@@ -177,9 +177,9 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return null;
+    		return true;
         } catch (IOException e) {
-    		return null;
+    		return false;
         }
 	}
 
