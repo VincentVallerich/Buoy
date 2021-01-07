@@ -29,6 +29,8 @@ public class ConfigWriter extends BasicAbstractWriter {
 	}
 
 	public void createDeleteBuoy(long id) {
+    	writeInt(Protocol.GET_CONFIG_DELETE_BUOY);
+
 	}
 
 	public void createCreateBuoy(Buoy buoy) {
@@ -60,6 +62,11 @@ public class ConfigWriter extends BasicAbstractWriter {
 		writeInt(buoy.getUsage().get().ordinal());
 		writeSensor(buoy.getSensors());
 		writeInt(buoy.getDataCount().get());
+	}
+
+	private void deleteBuoy(Buoy buoy){
+    	if (buoy == null) throw new Error("Buoy cannot be null");
+    	writeLong(buoy.getId().get());
 	}
 
 	private void writeNullableString(String s){

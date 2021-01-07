@@ -92,4 +92,8 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(battery.getDischarge());
         writeInt(battery.getCycleCount());
     }
+
+    private void deleteBuot(Buoy buoy){
+        writeInt(buoy.getId().get());
+    }
 }

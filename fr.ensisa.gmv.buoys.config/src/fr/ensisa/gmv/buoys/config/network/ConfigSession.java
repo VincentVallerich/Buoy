@@ -8,6 +8,7 @@ import fr.ensisa.gmv.buoys.config.model.Buoy;
 import fr.ensisa.gmv.buoys.config.model.Version;
 import fr.ensisa.gmv.buoys.network.Protocol;
 
+
 public class ConfigSession implements ISession {
 
     private Socket tcp;
@@ -160,9 +161,12 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return true;
+
+    		if(r.getType() == Protocol.REPLY_OK){
+    		    return true;
+            }
         } catch (IOException e) {
-    		return false;
+    		return null;
         }
 	}
 
@@ -179,7 +183,7 @@ public class ConfigSession implements ISession {
             }
     		return true;
         } catch (IOException e) {
-    		return false;
+    		return null;
         }
 	}
 

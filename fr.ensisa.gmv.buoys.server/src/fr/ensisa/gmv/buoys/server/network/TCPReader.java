@@ -57,6 +57,8 @@ public class TCPReader extends BasicAbstractReader {
 		this.buoy = readBuoy();
 	}
 
+	private void readDeleteBuoy(){}
+
 
 	private void readGetVersion() {
 		this.version = readVersion();
