@@ -25,4 +25,6 @@ public class Protocol {
 
 	public static final int GET_CONFIG_CREATE_BUOY      = 4000;
     public static final int GET_CONFIG_UPDATE_BUOY      = 4001;
+
+    public static final int GET_SESSION_BUOY_LAST_TICK  = 5000;
 }
