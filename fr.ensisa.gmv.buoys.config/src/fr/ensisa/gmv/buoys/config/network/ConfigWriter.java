@@ -22,13 +22,9 @@ public class ConfigWriter extends BasicAbstractWriter {
 	public void createNewVersion(Version version) {
 	}
 
-	public void createGetBuoy(long id) {
-	}
-
-	public void createGetBuoyList(String who) {
-	}
-
 	public void createDeleteBuoy(long id) {
+    	writeInt(Protocol.GET_CONFIG_DELETE_BUOY);
+
 	}
 
 	public void createCreateBuoy(Buoy buoy) {
@@ -39,6 +35,16 @@ public class ConfigWriter extends BasicAbstractWriter {
 	public void createUpdateBuoy(Buoy buoy) {
     	writeInt(Protocol.GET_CONFIG_UPDATE_BUOY);
 		writeBuoy(buoy);
+	}
+
+	public void createGetBuoy(long id) {
+		writeInt(Protocol.GET_CONFIG_GET_BUOY);
+		writeLong(id);
+	}
+
+	public void createGetBuoyList(String who) {
+		writeInt(Protocol.GET_CONFIG_GET_BUOYLIST);
+		writeNullableString(who);
 	}
 
 	public void createClearDataBuoy(long id) {
@@ -60,6 +66,11 @@ public class ConfigWriter extends BasicAbstractWriter {
 		writeInt(buoy.getUsage().get().ordinal());
 		writeSensor(buoy.getSensors());
 		writeInt(buoy.getDataCount().get());
+	}
+
+	private void deleteBuoy(Buoy buoy){
+    	if (buoy == null) throw new Error("Buoy cannot be null");
+    	writeLong(buoy.getId().get());
 	}
 
 	private void writeNullableString(String s){

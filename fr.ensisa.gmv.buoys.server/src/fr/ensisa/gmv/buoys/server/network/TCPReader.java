@@ -15,6 +15,7 @@ public class TCPReader extends BasicAbstractReader {
 	}
 	private Buoy buoy;
 	private BuoyData buoyData;
+	private ArrayList<Buoy> buoys;
 	private Version version;
 	private long id;
 
@@ -23,6 +24,11 @@ public class TCPReader extends BasicAbstractReader {
 		this.buoyData = null;
 		this.version = null;
 		this.id = -1;
+		this.buoys = null;
+	}
+
+	public String getWho() {
+		return readString();
 	}
 
 	public void receive() {
@@ -33,11 +39,28 @@ public class TCPReader extends BasicAbstractReader {
 		case Protocol.GET_CONFIG_GET_VERSION: readGetVersion(); break;
 		case Protocol.GET_CONFIG_CREATE_BUOY: readCreateBuoy(); break;
 		case Protocol.GET_SESSION_BUOY_LAST_TICK: readBuoyLastTickId(); break;
+		case Protocol.GET_CONFIG_GET_BUOY: readGetBuoy(); break;
 		}
 	}
 
 	private void readBuoyLastTickId() {
 		id = readLong();
+	}
+
+	private void readGetBuoy() {
+		this.buoy = readBuoy();
+	}
+
+	public ArrayList<Buoy> getBuoys() {
+		return buoys;
+	}
+
+	private void readGetBuoysList() {
+		int size = readInt();
+		this.buoys = new ArrayList<>();
+		for (int i = 0; i < size; i++)
+			this.buoys.add(readBuoy());
+
 	}
 
 	public Version getVersion() {
@@ -59,6 +82,8 @@ public class TCPReader extends BasicAbstractReader {
 	private void readCreateBuoy() {
 		this.buoy = readBuoy();
 	}
+
+	private void readDeleteBuoy(){}
 
 	private void readGetVersion() {
 		this.version = readVersion();

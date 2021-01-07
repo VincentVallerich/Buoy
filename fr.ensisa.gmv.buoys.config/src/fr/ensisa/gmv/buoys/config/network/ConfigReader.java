@@ -1,6 +1,8 @@
 package fr.ensisa.gmv.buoys.config.network;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.ensisa.gmv.buoys.config.model.Buoy;
 import fr.ensisa.gmv.buoys.config.model.Sensors;
@@ -38,6 +40,8 @@ public class ConfigReader extends BasicAbstractReader {
     }
 
     public List<Buoy> getBuoyList() {
+        int size = readInt();
+        ArrayList<Buoy> bb = new ArrayList<>();
         for (int i = 0; i < size; i++)
             bb.add(getCreateBuoy());
         return bb;

@@ -2,6 +2,7 @@ package fr.ensisa.gmv.buoys.server.network;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import fr.ensisa.gmv.buoys.network.Protocol;
 import fr.ensisa.gmv.buoys.server.model.*;
@@ -32,6 +33,18 @@ public class TCPWriter extends BasicAbstractWriter {
 
     public void getLastTick(BuoyData lastTick) {
         writeBuoyData(lastTick);
+    }
+
+    public void createGetBuoyList(ArrayList<Buoy> bb) {
+        writeInt(bb.size());
+        for(Buoy b : bb) {
+            writeBuoy(b);
+        }
+    }
+
+    public void createGetBuoy(long id) {
+        if (id < 0) throw new Error("id cannot be negative");
+        writeLong(id);
     }
 
     private void writeBuoyData(BuoyData buoyData) {
@@ -109,5 +122,8 @@ public class TCPWriter extends BasicAbstractWriter {
         writeFloat(measures.getTelemetry_back());
         writeFloat(measures.getTelemetry_left());
         writeFloat(measures.getTelemetry_right());
+    }
+    private void deleteBuot(Buoy buoy){
+        writeLong(buoy.getId());
     }
 }

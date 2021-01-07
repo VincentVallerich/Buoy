@@ -8,6 +8,7 @@ import fr.ensisa.gmv.buoys.config.model.Buoy;
 import fr.ensisa.gmv.buoys.config.model.Version;
 import fr.ensisa.gmv.buoys.network.Protocol;
 
+
 public class ConfigSession implements ISession {
 
     private Socket tcp;
@@ -78,39 +79,41 @@ public class ConfigSession implements ISession {
         }
 	}
 
-	@Override
-	public List<Buoy> doGetBuoyList(String who) {
+    @Override
+    public List<Buoy> doGetBuoyList(String who) {
         try {
-        	ConfigWriter w = new ConfigWriter(tcp.getOutputStream());
+            ConfigWriter w = new ConfigWriter(tcp.getOutputStream());
             w.createGetBuoyList(who);
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
-            }
-    		return null;
+            }if (r.getType() == Protocol.GET_CONFIG_GET_BUOYLIST)
+                return r.getBuoyList();
+            return null;
         } catch (IOException e) {
-    		return null;
+            return null;
         }
-	}
+    }
 
-	@Override
-	public Buoy doGetBuoy (long id) {
+    @Override
+    public Buoy doGetBuoy (long id) {
         try {
-        	ConfigWriter w = new ConfigWriter(tcp.getOutputStream());
+            ConfigWriter w = new ConfigWriter(tcp.getOutputStream());
             w.createGetBuoy(id);
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
-            }
-    		return null;
+            }if (r.getType() == Protocol.GET_CONFIG_GET_BUOY)
+                return r.getBuoy();
+            return null;
         } catch (IOException e) {
-    		return null;
+            return null;
         }
-	}
+    }
 
 	@Override
 	public Long doCreateBuoy(Buoy buoy) {
@@ -160,9 +163,13 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return true;
+
+    		if(r.getType() == Protocol.REPLY_OK){
+    		    return true;
+            }
+    		return null;
         } catch (IOException e) {
-    		return false;
+    		return null;
         }
 	}
 
@@ -179,7 +186,7 @@ public class ConfigSession implements ISession {
             }
     		return true;
         } catch (IOException e) {
-    		return false;
+    		return null;
         }
 	}
 

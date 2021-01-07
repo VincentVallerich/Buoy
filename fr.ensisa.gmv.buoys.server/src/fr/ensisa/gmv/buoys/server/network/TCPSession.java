@@ -43,6 +43,8 @@ public class TCPSession extends Thread {
 			case Protocol.GET_CONFIG_GET_VERSION: processGetVersion(reader, writer); break;
 			case Protocol.GET_CONFIG_CREATE_BUOY: processCreateBuoy(reader, writer); break;
 			case Protocol.GET_SESSION_BUOY_LAST_TICK: processGetBuoyLastTick(reader, writer); break;
+			case Protocol.GET_CONFIG_GET_BUOYLIST: processGetBuoyList(reader, writer); break;
+			case Protocol.GET_CONFIG_GET_BUOY: processGetBuoy(reader, writer); break;
 			default: return false; // connection jammed
 			// to remove before adding anything
 			// entry added to remove annoying error reported by compiler
@@ -53,6 +55,23 @@ public class TCPSession extends Thread {
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	private void processGetBuoy(TCPReader reader, TCPWriter writer) {
+		writer.createGetBuoy(reader.getBuoy().getId());
+	}
+
+	private void processGetBuoyList(TCPReader reader, TCPWriter writer) {
+		String who = reader.getWho();
+		if (who.equals("null")) throw new Error("who cannot be null");
+		ArrayList<Buoy> bb = new ArrayList<>();
+		for (Buoy b : model.getBuoys().getBuoys().values()) {
+			if (b.getWho() == who) {
+				bb.add(b);
+			}
+		}
+		writer.createGetBuoyList(bb);
+
 	}
 
 	private void processGetBuoyLastTick(TCPReader reader, TCPWriter writer) {

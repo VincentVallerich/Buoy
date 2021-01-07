@@ -49,6 +49,7 @@ public class ServiceReader extends BasicAbstractReader {
 
 //        if (type == 0) this.buoyData = new BuoyData(date, id, location, state, battery);
 //        if (type == 1) this.buoyData = new BuoyData(date, id, location, measures);
+        return null;
     }
 
     public Location readLocation() {

@@ -15,6 +15,7 @@ public class Protocol {
     private static final int SERVICE_START				= 400;
 
 	public static final int REPLY_KO					= REPLY_START+COMMON_START+2;
+	public static final int REPLY_OK                    = REPLY_START+COMMON_START+3;
 
 	public static final int UDP_STD1					= 0x01;
 	public static final int UDP_STD2					= 0x02;
@@ -23,8 +24,11 @@ public class Protocol {
 	public static final int GET_CONFIG_GET_VERSION      = 3000;
 	public static final int GET_CONFIG_NEW_VERSION      = 3001;
 
-	public static final int GET_CONFIG_CREATE_BUOY      = 4000;
+    public static final int GET_CONFIG_CREATE_BUOY      = 4000;
     public static final int GET_CONFIG_UPDATE_BUOY      = 4001;
+    public static final int GET_CONFIG_GET_BUOY         = 4002;
+    public static final int GET_CONFIG_GET_BUOYLIST     = 4003;
+    public static final int GET_CONFIG_DELETE_BUOY      = 4004;
 
     public static final int GET_SESSION_BUOY_LAST_TICK  = 5000;
 }
