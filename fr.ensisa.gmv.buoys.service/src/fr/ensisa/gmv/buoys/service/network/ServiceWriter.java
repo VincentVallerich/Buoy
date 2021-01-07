@@ -18,7 +18,8 @@ public class ServiceWriter extends BasicAbstractWriter {
 	}
 
 	public void createGetBuoyLastTick(long id) {
-
+		writeInt(Protocol.GET_SESSION_BUOY_LAST_TICK);
+		writeLong(id);
 	}
 
 }

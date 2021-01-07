@@ -8,6 +8,7 @@ import java.util.Map;
 
 import fr.ensisa.gmv.buoys.network.Protocol;
 import fr.ensisa.gmv.buoys.server.model.Buoy;
+import fr.ensisa.gmv.buoys.server.model.BuoyData;
 import fr.ensisa.gmv.buoys.server.model.Model;
 import fr.ensisa.gmv.buoys.server.model.Version;
 
@@ -37,14 +38,15 @@ public class TCPSession extends Thread {
 			TCPWriter writer = new TCPWriter (connection.getOutputStream());
 			TCPReader reader = new TCPReader (connection.getInputStream());
 			reader.receive ();
-			switch (reader.getType ()) {
+			switch (reader.getType()) {
 			case 0 : return false; // socket closed
 			case Protocol.GET_CONFIG_GET_VERSION: processGetVersion(reader, writer); break;
 			case Protocol.GET_CONFIG_CREATE_BUOY: processCreateBuoy(reader, writer); break;
+			case Protocol.GET_SESSION_BUOY_LAST_TICK: processGetBuoyLastTick(reader, writer); break;
 			default: return false; // connection jammed
 			// to remove before adding anything
 			// entry added to remove annoying error reported by compiler
-			case 1:
+			// case 1:
 			}
 			writer.send();
 			return true;
@@ -53,10 +55,16 @@ public class TCPSession extends Thread {
 		}
 	}
 
+	private void processGetBuoyLastTick(TCPReader reader, TCPWriter writer) {
+		long id = reader.getId();
+		BuoyData lastTick = model.getBuoyDataTable().getLastTick(id);
+		writer.getLastTick(lastTick);
+	}
+
 	private void processGetVersion(TCPReader reader, TCPWriter writer) {
 		Version version = model.getLastVersion();
 		if (version == null) writer.createKO();
-		writer.createGetVersion(version);
+		else writer.createGetVersion(version);
 	}
 
 	private void processCreateBuoy(TCPReader reader, TCPWriter writer) {

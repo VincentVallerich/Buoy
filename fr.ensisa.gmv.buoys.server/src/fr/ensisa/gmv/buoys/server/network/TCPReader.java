@@ -16,12 +16,14 @@ public class TCPReader extends BasicAbstractReader {
 	public TCPReader(InputStream inputStream) {
 		super (inputStream);
 	}
-	private Buoy buoy = new Buoy();
-	private Version version = new Version();
+	private Buoy buoy;
+	private Version version;
+	private long id;
 
 	private void eraseFields() {
 		this.buoy = null;
 		this.version = null;
+		this.id = -1;
 	}
 
 	public void receive() {
@@ -29,9 +31,14 @@ public class TCPReader extends BasicAbstractReader {
 		eraseFields ();
 		switch (type) {
 		case 0 : break;
-		case Protocol.GET_CONFIG_GET_VERSION: readGetVersion();
-		case Protocol.GET_CONFIG_CREATE_BUOY: readCreateBuoy();
+		case Protocol.GET_CONFIG_GET_VERSION: readGetVersion(); break;
+		case Protocol.GET_CONFIG_CREATE_BUOY: readCreateBuoy(); break;
+		case Protocol.GET_SESSION_BUOY_LAST_TICK: readBuoyLastTick(); break;
 		}
+	}
+
+	private void readBuoyLastTick() {
+		id = readLong();
 	}
 
 	public Version getVersion() {
@@ -40,6 +47,10 @@ public class TCPReader extends BasicAbstractReader {
 
 	public Buoy getBuoy() {
 		return this.buoy;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 	private void readCreateBuoy() {
