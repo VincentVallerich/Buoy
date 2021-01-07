@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.ensisa.gmv.buoys.service.model.Model;
 import fr.ensisa.gmv.buoys.service.network.ISession;
 import fr.ensisa.gmv.buoys.service.view.BuoyController;
-import fr.ensisa.hassenforder.buoys.network.Protocol;
+import fr.ensisa.gmv.buoys.network.Protocol;
 import fr.ensisa.gmv.buoys.service.network.ServiceSession;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

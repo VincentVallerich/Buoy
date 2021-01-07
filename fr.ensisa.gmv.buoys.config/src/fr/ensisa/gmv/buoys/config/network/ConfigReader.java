@@ -15,13 +15,14 @@ public class ConfigReader extends BasicAbstractReader {
         super(inputStream);
     }
 
-    Buoy buoy = new Buoy();
-    Version version = new Version();
-    int type = 0;
+    Buoy buoy;
+    Version version;
+    int type;
 
     private void eraseFields() {
         this.buoy = null;
         this.version = null;
+        this.type = -1;
     }
 
     public void receive() {
@@ -31,9 +32,15 @@ public class ConfigReader extends BasicAbstractReader {
         case Protocol.GET_CONFIG_GET_VERSION: readGetCurrentVersion(); break;
         case Protocol.GET_CONFIG_CREATE_BUOY: readCreateBuoy(); break;
         case Protocol.GET_CONFIG_UPDATE_BUOY: readUpdateBuoy(); break;
-        case Protocol.REPLY_KO:
-        	break;
+        case Protocol.GET_CONFIG_GET_BUOYLIST: getBuoyList(); break;
+        case Protocol.REPLY_KO: break;
         }
+    }
+
+    public List<Buoy> getBuoyList() {
+        for (int i = 0; i < size; i++)
+            bb.add(getCreateBuoy());
+        return bb;
     }
 
     private void readGetCurrentVersion() {

@@ -30,14 +30,8 @@ public class TCPWriter extends BasicAbstractWriter {
         writeBuoy(buoy);
     }
 
-    public void createGetLastTick(long id) {
-        if (id < 0) throw new Error("Id cannot be negative");
-        writeLong(id);
-    }
-
-    private void getLastTick(BuoyData lastTick) {
-
-
+    public void getLastTick(BuoyData lastTick) {
+        writeBuoyData(lastTick);
     }
 
     private void writeBuoyData(BuoyData buoyData) {
@@ -46,6 +40,8 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(buoyData.getType().ordinal());
         writeLocation(buoyData.getLocation());
         writeState(buoyData.getState());
+        writeBattery(buoyData.getBattery());
+        writeMeasures(buoyData.getMeasures());
     }
 
     private void writeBuoy(Buoy buoy){
@@ -91,5 +87,27 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(battery.getPlug().ordinal());
         writeInt(battery.getDischarge());
         writeInt(battery.getCycleCount());
+    }
+
+    private void writeMeasures(Measures measures) {
+        writeFloat(measures.getAcceleration_X());
+        writeFloat(measures.getAcceleration_Y());
+        writeFloat(measures.getAcceleration_Z());
+        writeFloat(measures.getRotation_X());
+        writeFloat(measures.getRotation_Y());
+        writeFloat(measures.getRotation_Z());
+        writeFloat(measures.getNorth());
+        writeFloat(measures.getTop_temperature());
+        writeFloat(measures.getTop_humidity());
+        writeFloat(measures.getTop_light());
+        writeFloat(measures.getTop_ir());
+        writeFloat(measures.getBottom_temperature());
+        writeFloat(measures.getBottom_humidity());
+        writeFloat(measures.getBottom_light());
+        writeFloat(measures.getBottom_ir());
+        writeFloat(measures.getTelemetry_front());
+        writeFloat(measures.getTelemetry_back());
+        writeFloat(measures.getTelemetry_left());
+        writeFloat(measures.getTelemetry_right());
     }
 }
